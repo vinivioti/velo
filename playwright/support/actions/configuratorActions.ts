@@ -1,4 +1,3 @@
-
 import { Page, expect } from '@playwright/test'
 
 export function createConfiguratorActions(page: Page) {
@@ -15,6 +14,11 @@ export function createConfiguratorActions(page: Page) {
       await page.getByRole('button', { name }).click()
     },
 
+    async toggleOptional(name: string | RegExp) {
+      // Find the label containing the matching text, and click the nested radix UI checkbox
+      await page.locator('label').filter({ hasText: name }).locator('button[role="checkbox"]').click()
+    },
+
     async expectPrice(price: string) {
       const priceElement = page.getByTestId('total-price')
       await expect(priceElement).toBeVisible()
@@ -28,6 +32,10 @@ export function createConfiguratorActions(page: Page) {
       // Accept either by matching the image filename in the final URL.
       const fileName = src.split('/').pop() ?? src
       await expect(carImage).toHaveAttribute('src', new RegExp(`${fileName.replaceAll('.', '\\.')}$|${fileName.replaceAll('.', '\\.').replace(/\\.png$/, '')}-.*\\.png$`))
+    },
+
+    async checkout() {
+      await page.getByRole('button', { name: /Monte o Seu/i }).click()
     },
   }
 }
