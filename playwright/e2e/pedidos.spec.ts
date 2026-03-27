@@ -9,13 +9,15 @@ test.describe('Consulta de Pedido', () => {
 
   test('deve consultar um pedido aprovado', async ({ app }) => {
     const order: OrderDetails = {
-      number: 'VLO-6E2J20',
+      number: 'VLO-XHNAL2',
       status: 'APROVADO',
       color: 'Lunar White',
       wheels: 'aero Wheels',
       customer: {
-        name: 'Fernando Papito',
-        email: 'papito@velo.dev',
+        // Observação: no banco, o customer_name está com dois espaços entre nome e sobrenome.
+        // A UI pode normalizar isso; se normalizar, volte para "vioti papito".
+        name: 'vioti  papito',
+        email: 'vioti2@papito.com',
       },
       payment: 'À Vista',
     }
