@@ -1,4 +1,5 @@
 import { test, expect } from '../support/fixtures'
+import { generateCpf } from '../support/helpers'
 
 import { deleteOrderByEmail } from '../support/database/orderRepository'
 
@@ -37,9 +38,9 @@ test.describe('Checkout', () => {
       const customer = {
         name: 'A',
         lastname: 'B',
-        email: 'papito@teste.com',
-        document: '00000014141',
-        phone: '(11) 99999-9999'
+        email: 'vioti@teste.com',
+        document: '0000002222',
+        phone: '(11) 98542-9988'
       }
 
       // Arrange
@@ -57,11 +58,11 @@ test.describe('Checkout', () => {
 
     test('deve exibir erro para e-mail com formato inválido', async ({ app }) => {
       const customer = {
-        name: 'Fernando',
+        name: 'Vioti',
         lastname: 'Papito',
-        email: 'papito@.com',
-        document: '00000014141',
-        phone: '(11) 99999-9999'
+        email: 'vioti@.com',
+        document: '0000002222',
+        phone: '(11) 98542-9988'
       }
 
       // Arrange
@@ -79,11 +80,11 @@ test.describe('Checkout', () => {
     test('deve exibir erro para CPF inválido', async ({ app }) => {
 
       const customer = {
-        name: 'Fernando',
+        name: 'Vioti',
         lastname: 'Papito',
-        email: 'papito@test.com',
-        document: '00000014199',
-        phone: '(11) 99999-9999'
+        email: 'vioti@.com',
+        document: '0000002222',
+        phone: '(11) 98542-9988'
       }
 
       // Arrange
@@ -101,11 +102,11 @@ test.describe('Checkout', () => {
     test('deve exigir o aceite dos termos ao finalizar com dados válidos', async ({ app }) => {
 
       const customer = {
-        name: 'Fernando',
+        name: 'Vioti',
         lastname: 'Papito',
-        email: 'papito@test.com',
-        document: '00000014199',
-        phone: '(11) 99999-9999'
+        email: 'vioti@.com',
+        document: '0000002222',
+        phone: '(11) 98542-9988'
       }
 
       // Arrange
@@ -127,11 +128,11 @@ test.describe('Checkout', () => {
     test('deve criar um pedido com sucesso para pagamento à vista', async ({ page, app }) => {
 
       const customer = {
-        name: 'Fernando',
-        lastname: 'Papito',
-        email: 'papito@teste.com',
-        document: '05366127068',
-        phone: '(11) 99999-9999',
+        name: 'Vinissius',
+        lastname: 'Vioti',
+        email: 'vioti@velo.dev',
+        document: generateCpf(),
+        phone: '(11) 98542-9988',
         store: 'Velô Paulista',
         paymentMethod: 'À Vista',
         totalPrice: 'R$ 40.000,00'
