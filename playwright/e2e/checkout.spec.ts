@@ -1,5 +1,4 @@
 import { test, expect } from '../support/fixtures'
-import { generateCpf } from '../support/helpers'
 
 import { deleteOrderByEmail } from '../support/database/orderRepository'
 
@@ -38,9 +37,9 @@ test.describe('Checkout', () => {
       const customer = {
         name: 'A',
         lastname: 'B',
-        email: 'vioti@teste.com',
-        document: '0000002222',
-        phone: '(11) 98542-9988'
+        email: 'papito@teste.com',
+        document: '00000014141',
+        phone: '(11) 99999-9999'
       }
 
       // Arrange
@@ -58,11 +57,11 @@ test.describe('Checkout', () => {
 
     test('deve exibir erro para e-mail com formato inválido', async ({ app }) => {
       const customer = {
-        name: 'Vioti',
+        name: 'Fernando',
         lastname: 'Papito',
-        email: 'vioti@.com',
-        document: '0000002222',
-        phone: '(11) 98542-9988'
+        email: 'papito@.com',
+        document: '00000014141',
+        phone: '(11) 99999-9999'
       }
 
       // Arrange
@@ -80,11 +79,11 @@ test.describe('Checkout', () => {
     test('deve exibir erro para CPF inválido', async ({ app }) => {
 
       const customer = {
-        name: 'Vioti',
+        name: 'Fernando',
         lastname: 'Papito',
-        email: 'vioti@.com',
-        document: '0000002222',
-        phone: '(11) 98542-9988'
+        email: 'papito@test.com',
+        document: '00000014199',
+        phone: '(11) 99999-9999'
       }
 
       // Arrange
@@ -102,11 +101,11 @@ test.describe('Checkout', () => {
     test('deve exigir o aceite dos termos ao finalizar com dados válidos', async ({ app }) => {
 
       const customer = {
-        name: 'Vioti',
+        name: 'Fernando',
         lastname: 'Papito',
-        email: 'vioti@.com',
-        document: '0000002222',
-        phone: '(11) 98542-9988'
+        email: 'papito@test.com',
+        document: '00000014199',
+        phone: '(11) 99999-9999'
       }
 
       // Arrange
@@ -128,11 +127,11 @@ test.describe('Checkout', () => {
     test('deve criar um pedido com sucesso para pagamento à vista', async ({ page, app }) => {
 
       const customer = {
-        name: 'Vinissius',
-        lastname: 'Vioti',
-        email: 'vioti@velo.dev',
-        document: generateCpf(),
-        phone: '(11) 98542-9988',
+        name: 'Fernando',
+        lastname: 'Papito',
+        email: 'papito@teste.com',
+        document: '05366127068',
+        phone: '(11) 99999-9999',
         store: 'Velô Paulista',
         paymentMethod: 'À Vista',
         totalPrice: 'R$ 40.000,00'
@@ -154,6 +153,54 @@ test.describe('Checkout', () => {
       // Act
       await app.checkout.selectPaymentMethod(customer.paymentMethod)
       await app.checkout.expectSummaryTotal(customer.totalPrice)
+      await app.checkout.acceptTerms()
+      await app.checkout.submit()
+
+      // Assert
+      await expect(page).toHaveURL(/\/success/)
+      await expect(page.getByRole('heading', { name: 'Pedido Aprovado!' })).toBeVisible()
+    })
+
+    test('deve aprovar automaticamente o crédito quando o score do CPF for maior que 700 no financiamento', async ({ page, app }) => {
+
+      const customer = {
+        name: 'Vini',
+        lastname: 'Vioti',
+        email: 'vioti@testecredito.com',
+        document: '34083864044',
+        phone: '(11) 45854-9999',
+        store: 'Velô Paulista',
+        paymentMethod: 'Financiamento',
+        totalPrice: 'R$ 40.000,00'
+      }
+
+      await deleteOrderByEmail(customer.email)
+
+      await page.route('**/functions/v1/credit-analysis', async route => {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            status: 'Done',
+            score: 710,
+          }),
+        })
+      })
+
+      // Arrange
+      await page.goto('/')
+      await page.getByRole('link', { name: /Configure Agora/i }).click()
+
+      await app.configurator.expectPrice(customer.totalPrice)
+      await app.configurator.finishConfigurator()
+      await app.checkout.expectLoaded()
+
+      await app.checkout.fillCustomerlData(customer)
+      await app.checkout.selectStore(customer.store)
+
+      // Act
+      await app.checkout.selectPaymentMethod(customer.paymentMethod)
+      // await app.checkout.expectSummaryTotal(customer.totalPrice)
       await app.checkout.acceptTerms()
       await app.checkout.submit()
 
