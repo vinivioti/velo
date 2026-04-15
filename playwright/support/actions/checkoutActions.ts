@@ -22,6 +22,19 @@ export function createCheckoutActions(page: Page) {
       alerts
     },
 
+    async mockCreditAnalysis(score: number) {
+      await page.route('**/functions/v1/credit-analysis', async route => {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            status: 'Done',
+            score,
+          }),
+        })
+      })
+    },
+
     async expectLoaded() {
       await expect(page.getByRole('heading', { name: 'Finalizar Pedido' })).toBeVisible()
     },
@@ -51,6 +64,10 @@ export function createCheckoutActions(page: Page) {
 
     async selectPaymentMethod(method: string) {
       await page.getByRole('button', { name: new RegExp(method, 'i') }).click()
+    },
+
+    async fillDownPayment(value: string) {
+      await page.getByTestId('input-entry-value').fill(value)
     },
 
     async acceptTerms() {
