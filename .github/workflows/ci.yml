@@ -14,7 +14,7 @@ env:
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_SCOPE: velo-6d3jbxldp-viniviotis-projects.vercel.app
+  VERCEL_SCOPE: viniviotis-projects
 
 jobs:
   unit-tests:
