@@ -44,7 +44,7 @@ export default defineConfig({
     //baseURL: 'https://velo-six-zeta.vercel.app',
 
     //Versão UAT
-    baseURL: 'https://velo-3jc4hx3un-viniviotis-projects.vercel.app/',
+    baseURL: process.env.BASE_URL || 'http://localhost:5173',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on',
