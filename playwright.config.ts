@@ -104,7 +104,7 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
+  webServer: process.env.BASE_URL ? undefined : {
     command: process.env.TEST_ENV === 'preview' ? 'yarn dev --mode preview' : 'yarn dev',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
