@@ -86,11 +86,9 @@ jobs:
       - name: Deploy preview
         id: deploy
         run: |
-          URL=$(yarn --silent vercel deploy --prebuilt \
-          --target=preview \
-          --token=$VERCEL_TOKEN \
-          --scope=$VERCEL_SCOPE)
-          echo "deployment-url=$URL" >> $GITHUB_OUTPUT
+          # O comando 'vercel deploy' com --json é a forma mais segura de pegar a URL
+          DEPLOY_URL=$(npx vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --scope=viniviotis-projects)
+          echo "deployment-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
 
   e2e-tests:
     name: Run E2E Tests
