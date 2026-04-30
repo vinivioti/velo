@@ -87,7 +87,7 @@ jobs:
         id: deploy
         run: |
           # O comando 'vercel deploy' com --json é a forma mais segura de pegar a URL
-          DEPLOY_URL=$(npx vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --scope=viniviotis-projects)
+          DEPLOY_URL=$(npx --silent vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --scope=viniviotis-projects)
           echo "Vercel Preview URL is: $DEPLOY_URL"
           echo "deployment-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
 
