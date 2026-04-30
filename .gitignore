@@ -33,3 +33,8 @@ dist-ssr
 .vercel
 supabase/.temp/
 .env
+.env.preview
+.env.production
+.temp.env
+test-db.ts
+.vercel/
