@@ -108,7 +108,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Log BASE_URL
-        run: echo "The E2E tests will run against: ${{ needs.build-and-deploy.outputs.deployment-url }}"
+        run: |
+          echo "The E2E tests will run against: ${{ needs.build-and-deploy.outputs.deployment-url }}"
 
       # 3. Habilita o Corepack para gerenciamento do Yarn
       - name: Enable Corepack
