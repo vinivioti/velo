@@ -80,12 +80,11 @@ jobs:
 
       # 6. Build para o Vercel
       - name: Build Vercel
-        run: |
-          # Carrega as variáveis baixadas pelo Vercel Pull diretamente no ambiente do shell
-          set -a
-          source .vercel/.env.preview.local
-          set +a
-          yarn vercel build --token=$VERCEL_TOKEN
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
+        run: yarn vercel build --token=$VERCEL_TOKEN
 
       # 7. Deploy preview no vercel
       - name: Deploy preview
