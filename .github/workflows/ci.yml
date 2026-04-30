@@ -185,3 +185,4 @@ jobs:
           yarn vercel deploy --prebuilt --prod \
           --token=$VERCEL_TOKEN \
           --scope=$VERCEL_SCOPE
+# Triggering workflow again
