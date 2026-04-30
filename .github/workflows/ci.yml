@@ -70,28 +70,12 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      # 5. Obter as configurações do vercel
-      - name: Pull Vercel Config
-        run: |
-          yarn vercel pull --yes \
-          --environment=preview \
-          --token=$VERCEL_TOKEN \
-          --scope=$VERCEL_SCOPE
-
-      # 6. Build para o Vercel
-      - name: Build Vercel
-        env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
-          VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
-        run: yarn vercel build --token=$VERCEL_TOKEN
-
-      # 7. Deploy preview no vercel
+      # 5. Deploy preview no vercel
       - name: Deploy preview
         id: deploy
         run: |
-          # O comando 'vercel deploy' com --json é a forma mais segura de pegar a URL
-          DEPLOY_URL=$(npx --silent vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --scope=viniviotis-projects)
+          # Deixamos a Vercel buildar na nuvem para garantir acesso às variáveis de ambiente do painel
+          DEPLOY_URL=$(npx --silent vercel deploy --token=${{ secrets.VERCEL_TOKEN }} --scope=viniviotis-projects)
           echo "Vercel Preview URL is: $DEPLOY_URL"
           echo "deployment-url=$DEPLOY_URL" >> $GITHUB_OUTPUT
 
@@ -171,22 +155,10 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      # 5. Obter as configurações do vercel (Produção)
-      - name: Pull Vercel Config (Production)
-        run: |
-          yarn vercel pull --yes \
-          --environment=production \
-          --token=$VERCEL_TOKEN \
-          --scope=$VERCEL_SCOPE
-
-      # 6. Build para o Vercel (Produção)
-      - name: Build Vercel (Production)
-        run: yarn vercel build --prod --token=$VERCEL_TOKEN
-
-      # 7. Deploy Vercel (Produção)
+      # 5. Deploy Vercel (Produção)
       - name: Deploy Vercel (Production)
         run: |
-          yarn vercel deploy --prebuilt --prod \
-          --token=$VERCEL_TOKEN \
-          --scope=$VERCEL_SCOPE
+          # Build e Deploy direto na nuvem da Vercel usando as chaves de produção
+          npx vercel deploy --prod --token=$VERCEL_TOKEN --scope=$VERCEL_SCOPE
+
 # Triggering workflow again
