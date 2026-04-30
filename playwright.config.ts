@@ -10,7 +10,8 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+const envFile = process.env.TEST_ENV === 'preview' ? '.env.preview.local' : '.env';
+dotenv.config({ path: path.resolve(__dirname, envFile) });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -103,7 +104,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'yarn dev',
+    command: process.env.TEST_ENV === 'preview' ? 'yarn dev --mode preview' : 'yarn dev',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
   },
