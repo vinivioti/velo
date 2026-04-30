@@ -81,8 +81,10 @@ jobs:
       # 6. Build para o Vercel
       - name: Build Vercel
         run: |
-          # Copia as variáveis baixadas pelo Vercel Pull para o .env que o Vite entende
-          cp .vercel/.env.preview.local .env
+          # Carrega as variáveis baixadas pelo Vercel Pull diretamente no ambiente do shell
+          set -a
+          source .vercel/.env.preview.local
+          set +a
           yarn vercel build --token=$VERCEL_TOKEN
 
       # 7. Deploy preview no vercel
