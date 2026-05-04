@@ -82,7 +82,7 @@ jobs:
         env:
           BASE_URL: ${{ needs.build-and-deploy-preview.outputs.deployment-url }}
           # Injetamos o banco de staging para que os testes não toquem na produção
-          DATABASE_URL: ${{ secrets.DATABASE_URL_STAGING }}
+          DATABASE_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
 
       - uses: actions/upload-artifact@v7.0.1
         if: always()
