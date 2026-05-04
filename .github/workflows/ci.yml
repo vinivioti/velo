@@ -79,11 +79,14 @@ jobs:
       - run: yarn install
       - run: yarn playwright install --with-deps chromium
       
-      # Criação explícita do .env para os testes (ajuda a debugar se as variáveis estão chegando)
+      # Criação explícita do .env de forma segura (evita erros com caracteres especiais na senha)
       - name: Create .env for E2E
+        env:
+          PREVIEW_DB_URL: ${{ secrets.PREVIEW_DATABASE_URL }}
+          PREVIEW_BASE_URL: ${{ needs.build-and-deploy-preview.outputs.deployment-url }}
         run: |
-          echo "DATABASE_URL=${{ secrets.PREVIEW_DATABASE_URL }}" > .env
-          echo "BASE_URL=${{ needs.build-and-deploy-preview.outputs.deployment-url }}" >> .env
+          echo "DATABASE_URL=$PREVIEW_DB_URL" > .env
+          echo "BASE_URL=$PREVIEW_BASE_URL" >> .env
           echo "VITE_SUPABASE_URL=https://bsberzejqkpedpwvcmxi.supabase.co" >> .env
           echo "VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_dRElapK0uruf7O3is9U4lg_LzuyUjp2" >> .env
 
