@@ -1,3 +1,4 @@
+// Trigger for Preview testing
 import { defineConfig, devices } from '@playwright/test';
 
 /**
@@ -10,7 +11,7 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+dotenv.config();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -45,6 +46,10 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
+    //Versão Produção
+    //baseURL: 'https://velo-six-zeta.vercel.app',
+
+    //Versão UAT
     baseURL: process.env.BASE_URL || 'http://localhost:5173',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
@@ -98,8 +103,8 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'yarn dev',
+  webServer: process.env.BASE_URL ? undefined : {
+    command: process.env.TEST_ENV === 'preview' ? 'yarn dev --mode preview' : 'yarn dev',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
   },

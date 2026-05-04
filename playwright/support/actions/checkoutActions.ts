@@ -22,6 +22,19 @@ export function createCheckoutActions(page: Page) {
       alerts
     },
 
+    async mockCreditAnalysis(score: number) {
+      await page.route('**/functions/v1/credit-analysis', async route => {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            status: 'Done',
+            score,
+          }),
+        })
+      })
+    },
+
     async expectLoaded() {
       await expect(page.getByRole('heading', { name: 'Finalizar Pedido' })).toBeVisible()
     },
