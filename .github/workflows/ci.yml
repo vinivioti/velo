@@ -47,7 +47,7 @@ jobs:
         run: |
           npx supabase link --project-ref bsberzejqkpedpwvcmxi -p '${{ secrets.SUPABASE_DB_PASSWORD_STAGING }}'
           npx supabase db push
-          npx supabase functions deploy --all
+          npx supabase functions deploy credit-analysis
 
       # Prepara Variáveis para o Build de Preview (Staging)
       - name: Pull Vercel Config (Preview)
