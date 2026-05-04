@@ -14,7 +14,7 @@ env:
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_SCOPE: fernandopapito-4832s-projects
+  VERCEL_SCOPE: viniviotis-projects
 
 jobs:
   unit-tests:
@@ -77,6 +77,8 @@ jobs:
           --environment=preview \
           --token=$VERCEL_TOKEN \
           --scope=$VERCEL_SCOPE
+          # Fix para o Vite enxergar as variáveis
+          cp .vercel/.env.preview.local .env
       
       # 6. Build para o Vercel
       - name: Build Vercel

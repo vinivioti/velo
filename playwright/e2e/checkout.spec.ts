@@ -164,11 +164,11 @@ test.describe('Checkout', () => {
     test('deve aprovar automaticamente o crédito quando o score do CPF for maior que 700 no financiamento', async ({ app }) => {
 
       const customer = {
-        name: 'Steve',
-        lastname: 'Woz',
-        email: 'woz@velo.dev',
-        document: '65493881047',
-        phone: '(11) 99999-9999',
+        name: 'Vini',
+        lastname: 'Vioti',
+        email: 'vioti@testecredito.com',
+        document: '34083864044',
+        phone: '(11) 45854-9999',
         store: 'Velô Paulista',
         paymentMethod: 'Financiamento',
         totalPrice: 'R$ 40.000,00'
