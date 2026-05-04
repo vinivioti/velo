@@ -130,4 +130,4 @@ jobs:
 
       # Deploy final (O promote real)
       - name: Deploy to Vercel Production
-        run: npx vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN --scope=$VERCEL_SCOPE
+        run: npx vercel deploy --prod --token=$VERCEL_TOKEN --scope=$VERCEL_SCOPE
