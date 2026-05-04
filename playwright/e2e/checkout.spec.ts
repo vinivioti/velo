@@ -101,11 +101,11 @@ test.describe('Checkout', () => {
     test('deve exigir o aceite dos termos ao finalizar com dados válidos', async ({ app }) => {
 
       const customer = {
-        name: 'Fernando',
+        name: 'Vini',
         lastname: 'Papito',
-        email: 'papito@test.com',
-        document: '00000014199',
-        phone: '(11) 99999-9999'
+        email: 'vinipapito@test.com',
+        document: '42674042087',
+        phone: '(11) 88888-7777'
       }
 
       // Arrange
@@ -131,11 +131,11 @@ test.describe('Checkout', () => {
     test('deve criar um pedido com sucesso para pagamento à vista', async ({ app }) => {
 
       const customer = {
-        name: 'Fernando',
+        name: 'Vini',
         lastname: 'Papito',
-        email: 'papito@teste.com',
+        email: 'vinipapito@teste.com',
         document: '05366127068',
-        phone: '(11) 99999-9999',
+        phone: '(11) 66666-5555',
         store: 'Velô Paulista',
         paymentMethod: 'À Vista',
         totalPrice: 'R$ 40.000,00'
